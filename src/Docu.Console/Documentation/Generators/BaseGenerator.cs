@@ -47,9 +47,17 @@ namespace Docu.Documentation.Generators
 
             var node = member.Xml.SelectSingleNode("summary");
 
+            //add internal remarks by wsky 20111207
+            if (node != null)
+            {
+                var remark = node.SelectSingleNode("remarks");
+                if (remark != null)
+                    doc.Remarks = new Remarks(commentParser.ParseNode(remark));
+            }
+
             ParseSummary(node, doc);
         }
-
+        
         protected void ParseRemarks(IDocumentationMember member, IDocumentationElement doc)
         {
             if (member.Xml == null) return;
